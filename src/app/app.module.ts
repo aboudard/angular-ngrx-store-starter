@@ -7,6 +7,9 @@ import { HelloComponent } from './hello.component';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { CounterEffects } from './effects/counter.effects';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 @NgModule({
   imports:      [ 
@@ -19,7 +22,9 @@ import { environment } from '../environments/environment';
         strictActionImmutability: true,
       }
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([CounterEffects]),
+    StorageModule.forRoot({ IDBNoWrap: true })
   ],
   declarations: [ AppComponent, HelloComponent ],
   bootstrap:    [ AppComponent ]
