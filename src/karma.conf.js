@@ -1,7 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -26,7 +26,7 @@ module.exports = function (config) {
       outputFile: 'junit.xml', // if included, results will be saved as $outputDir/$browserName/$outputFile
       useBrowserName: false // add browser name to report and classes names
     },
-    reporters: ['progress', 'kjhtml', 'junit' ,'coverage-istanbul'],
+    reporters: ['progress', 'kjhtml', 'junit', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -38,6 +38,6 @@ module.exports = function (config) {
         flags: ['--no-sandbox', '--disable-gpu']
       }
     },
-    singleRun: false
+    singleRun: true
   });
 };
