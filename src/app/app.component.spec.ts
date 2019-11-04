@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { StoreModule, Store } from '@ngrx/store';
 import * as fromRoot from './reducers';
 import * as counterActions from './actions/counter.actions';
+import { HelloComponent } from './hello.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -13,7 +14,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot(fromRoot.reducers)],
-      declarations: [AppComponent]
+      declarations: [AppComponent, HelloComponent]
     }).compileComponents();
 
     store = TestBed.get(Store);
@@ -29,19 +30,19 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'testVS'`, () => {
-    expect(component.title).toEqual('testVS');
+  it(`should have as title 'Angular & NgRx'`, () => {
+    expect(component.name).toEqual('Angular & NgRx');
   });
 
   it('should render title in a h1 tag', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to testVS!'
+      'Hello Angular & NgRx'
     );
   });
 
   it('should dispatch an action to load data when created', () => {
-    const action = new counterActions.Increment();
+    const action = counterActions.increment();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
