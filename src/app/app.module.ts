@@ -12,21 +12,21 @@ import { CounterEffects } from './effects/counter.effects';
 import { StorageModule } from '@ngx-pwa/local-storage';
 
 @NgModule({
-  imports:      [ 
-    BrowserModule, 
-  FormsModule,
-  StoreModule.forRoot(reducers, {
-      metaReducers, 
+  imports: [
+    BrowserModule,
+    FormsModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true,
+        strictActionImmutability: true
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([CounterEffects]),
     StorageModule.forRoot({ IDBNoWrap: true })
   ],
-  declarations: [ AppComponent, HelloComponent ],
-  bootstrap:    [ AppComponent ]
+  declarations: [AppComponent, HelloComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

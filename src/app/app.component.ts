@@ -7,7 +7,7 @@ import { Observable, interval } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-component',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
