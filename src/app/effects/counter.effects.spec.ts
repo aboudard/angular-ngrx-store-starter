@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
 
-import { CounterEffects } from './counter.effects';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { storeCounter } from '../actions/counter.actions';
+import { CounterEffects } from './counter.effects';
 
 describe('CounterEffects', () => {
   // let actions$: Observable<any>;
@@ -20,8 +18,8 @@ describe('CounterEffects', () => {
         StorageMap
       ]
     });
-    storage = TestBed.get(StorageMap);
-    effects = TestBed.get<CounterEffects>(CounterEffects);
+    storage = TestBed.inject(StorageMap);
+    effects = TestBed.inject<CounterEffects>(CounterEffects);
   });
 
   it('should be created', () => {

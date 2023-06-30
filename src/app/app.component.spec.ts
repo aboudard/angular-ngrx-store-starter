@@ -1,9 +1,9 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { StoreModule, Store } from '@ngrx/store';
-import * as fromRoot from './reducers';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import * as counterActions from './actions/counter.actions';
+import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
+import * as fromRoot from './reducers';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -17,7 +17,7 @@ describe('AppComponent', () => {
       declarations: [AppComponent, HelloComponent]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
 
     fixture = TestBed.createComponent(AppComponent);
