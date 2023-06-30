@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { AppState } from "./reducers";
-import { increment, decrement, storeCounter } from "./actions/counter.actions";
-import { getCount } from "./selectors/counter.selector";
-import { Observable, combineLatest, interval } from "rxjs";
-import { map } from "rxjs/operators";
 import { StorageMap } from "@ngx-pwa/local-storage";
+import { Observable, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
+import { decrement, increment, storeCounter } from "./actions/counter.actions";
+import { AppState } from "./reducers";
+import { getCount } from "./selectors/counter.selector";
 
 interface ViewModel {
   count: number;
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>, private storage: StorageMap) {
     this.viewModel$ = combineLatest([
       this.store.pipe(select(getCount)),
-      this.storage.get<number>("count") as Observable<number>,
+      this.storage.watch<number>("count") as Observable<number>,
     ]).pipe(map(([count, storage]) => ({ count, storage })));
   }
 
