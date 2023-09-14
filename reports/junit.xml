@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
-<testsuite name="HeadlessChrome 0.0.0 (Windows 10 0.0.0)" package="" timestamp="2019-11-04T16:37:24" id="0" hostname="P82940W" tests="6" errors="0" failures="0" time="0.996">
+<testsuite name="Chrome Headless 116.0.5845.187 (Windows 10)" package="" timestamp="2023-09-14T14:11:33" id="0" hostname="CIT-LD-B0162" tests="5" errors="0" failures="1" time="0.166">
   <properties>
-    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/77.0.3865.120 Safari/537.36"/>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/116.0.5845.187 Safari/537.36"/>
   </properties>
-  <testcase name="AppComponent should create the app" time="0.397" classname="AppComponent"/>
-  <testcase name="AppComponent should have as title 'Angular &amp; NgRx'" time="0.117" classname="AppComponent"/>
-  <testcase name="AppComponent should render title in a h1 tag" time="0.147" classname="AppComponent"/>
-  <testcase name="AppComponent should dispatch an action to load data when created" time="0.149" classname="AppComponent"/>
-  <testcase name="AppComponent should display counter value" time="0.139" classname="AppComponent"/>
-  <testcase name="CounterEffects should be created" time="0.047" classname="CounterEffects"/>
+  <testcase name="AppComponent should have as title 'Angular &amp; NgRx'" time="0.016" classname="AppComponent"/>
+  <testcase name="AppComponent should create the app" time="0.003" classname="AppComponent"/>
+  <testcase name="AppComponent should dispatch an action to load data when created" time="0.003" classname="AppComponent"/>
+  <testcase name="CounterEffects should be created" time="0.004" classname="CounterEffects"/>
+  <testcase name="CounterEffects should call storage on action" time="0.14" classname="CounterEffects">
+    <failure type="">Error: Expected 1 to be 2.
+    at &lt;Jasmine&gt;
+    at UserContext.&lt;anonymous&gt; (src/app/effects/counter.effects.spec.ts:41:43)
+    at ZoneDelegate.invoke (node_modules/zone.js/dist/zone-evergreen.js:368:1)
+    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvoke (node_modules/zone.js/dist/zone-testing.js:300:1)
+</failure>
+  </testcase>
   <system-out>
-    <![CDATA[HeadlessChrome 0.0.0 (Windows 10 0.0.0) WARN: '@ngrx/store: runtime checks are currently opt-in but will be the default in the next major version with the possibility to opt-out, see https://ngrx.io/guide/migration/v8 for more information.'
-,HeadlessChrome 0.0.0 (Windows 10 0.0.0) WARN: '@ngrx/store: runtime checks are currently opt-in but will be the default in the next major version with the possibility to opt-out, see https://ngrx.io/guide/migration/v8 for more information.'
-,HeadlessChrome 0.0.0 (Windows 10 0.0.0) WARN: '@ngrx/store: runtime checks are currently opt-in but will be the default in the next major version with the possibility to opt-out, see https://ngrx.io/guide/migration/v8 for more information.'
-,HeadlessChrome 0.0.0 (Windows 10 0.0.0) WARN: '@ngrx/store: runtime checks are currently opt-in but will be the default in the next major version with the possibility to opt-out, see https://ngrx.io/guide/migration/v8 for more information.'
-,HeadlessChrome 0.0.0 (Windows 10 0.0.0) WARN: '@ngrx/store: runtime checks are currently opt-in but will be the default in the next major version with the possibility to opt-out, see https://ngrx.io/guide/migration/v8 for more information.'
+    <![CDATA[Chrome Headless 116.0.5845.187 (Windows 10) LOG: undefined
 
 ]]>
   </system-out>
