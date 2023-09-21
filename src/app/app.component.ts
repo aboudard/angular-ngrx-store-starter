@@ -24,7 +24,9 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>, private storage: StorageMap) {
     this.viewModel$ = combineLatest([
       this.store.pipe(select(getCount)),
-      this.storage.watch<number>("count") as Observable<number>,
+      this.storage.watch<number>("count", {
+        type: "number"
+      }) as Observable<number>,
     ]).pipe(map(([count, storage]) => ({ count, storage })));
   }
 
