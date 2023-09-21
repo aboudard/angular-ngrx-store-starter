@@ -1,22 +1,16 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 116.0.5845.187 (Windows 10)" package="" timestamp="2023-09-14T14:11:33" id="0" hostname="CIT-LD-B0162" tests="5" errors="0" failures="1" time="0.166">
+<testsuite name="Chrome Headless 116.0.5845.188 (Windows 10)" package="" timestamp="2023-09-22T12:07:16" id="0" hostname="CIT-LD-B0162" tests="6" errors="0" failures="0" time="0.02">
   <properties>
-    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/116.0.5845.187 Safari/537.36"/>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/116.0.5845.188 Safari/537.36"/>
   </properties>
-  <testcase name="AppComponent should have as title 'Angular &amp; NgRx'" time="0.016" classname="AppComponent"/>
-  <testcase name="AppComponent should create the app" time="0.003" classname="AppComponent"/>
-  <testcase name="AppComponent should dispatch an action to load data when created" time="0.003" classname="AppComponent"/>
-  <testcase name="CounterEffects should be created" time="0.004" classname="CounterEffects"/>
-  <testcase name="CounterEffects should call storage on action" time="0.14" classname="CounterEffects">
-    <failure type="">Error: Expected 1 to be 2.
-    at &lt;Jasmine&gt;
-    at UserContext.&lt;anonymous&gt; (src/app/effects/counter.effects.spec.ts:41:43)
-    at ZoneDelegate.invoke (node_modules/zone.js/dist/zone-evergreen.js:368:1)
-    at ProxyZoneSpec.push.QpwO.ProxyZoneSpec.onInvoke (node_modules/zone.js/dist/zone-testing.js:300:1)
-</failure>
-  </testcase>
+  <testcase name="CounterEffects should be created" time="0.009" classname="CounterEffects"/>
+  <testcase name="CounterEffects should call storage on action" time="0.003" classname="CounterEffects"/>
+  <testcase name="AppComponent should dispatch an action onInit - method 1" time="0.004" classname="AppComponent"/>
+  <testcase name="AppComponent should dispatch an action onInit - method 2" time="0.001" classname="AppComponent"/>
+  <testcase name="AppComponent should create the app" time="0.001" classname="AppComponent"/>
+  <testcase name="AppComponent should have as title 'Angular &amp; NgRx'" time="0.002" classname="AppComponent"/>
   <system-out>
-    <![CDATA[Chrome Headless 116.0.5845.187 (Windows 10) LOG: undefined
+    <![CDATA[Chrome Headless 116.0.5845.188 (Windows 10) LOG: undefined
 
 ]]>
   </system-out>
