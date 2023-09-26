@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import * as counterActions from "./actions/counter.actions";
+import { CounterActions } from "./actions/counter.actions";
 import { AppComponent } from "./app.component";
 import * as fromRoot from "./reducers";
 import { ObserverSpy, subscribeSpyTo } from "@hirez_io/observer-spy";
@@ -28,14 +28,14 @@ describe("AppComponent", () => {
   });
 
   it("should dispatch an action onInit - method 1", () => {
-    const action = counterActions.increment();
+    const action = CounterActions.incrementCounter();
     component.ngOnInit();
     expect(storeSpy.getLastValue()).toEqual(action);
   });
 
   it("should dispatch an action onInit - method 2", () => {
     const spyStore = spyOn(store, "dispatch").and.callThrough();
-    const action = counterActions.increment();
+    const action = CounterActions.incrementCounter();
     component.ngOnInit();
     expect(spyStore).toHaveBeenCalledWith(action);
   });

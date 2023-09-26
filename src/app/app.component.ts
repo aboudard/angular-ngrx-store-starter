@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { StorageMap } from "@ngx-pwa/local-storage";
 import { Observable, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
-import { decrement, increment, storeCounter } from "./actions/counter.actions";
+import { delay, map } from "rxjs/operators";
+import { CounterActions } from "./actions/counter.actions";
 import { AppState } from "./reducers";
 import { getCount } from "./selectors/counter.selector";
 
@@ -27,17 +27,20 @@ export class AppComponent implements OnInit {
       this.storage.watch<number>("count", {
         type: "number"
       }) as Observable<number>,
-    ]).pipe(map(([count, storage]) => ({ count, storage })));
+    ]).pipe(
+      delay(1500),
+      map(([count, storage]) => ({ count, storage }))
+      );
   }
 
   decrement(): void {
-    this.store.dispatch(decrement());
+    this.store.dispatch(CounterActions.decrementCounter());
   }
   increment(): void {
-    this.store.dispatch(increment());
+    this.store.dispatch(CounterActions.incrementCounter());
   }
   storeVal(num: number): void {
-    this.store.dispatch(storeCounter({ val: num }));
+    this.store.dispatch(CounterActions.storeCounter({ val: num }));
   }
   ngOnInit(): void {
     this.increment();

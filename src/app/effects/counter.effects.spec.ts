@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { provideMockActions } from "@ngrx/effects/testing";
 import { StorageMap } from "@ngx-pwa/local-storage";
-import { storeCounter } from "../actions/counter.actions";
+import { CounterActions } from "../actions/counter.actions";
 import { CounterEffects } from "./counter.effects";
 import { Observable, of } from "rxjs";
 import { Spy, createSpyFromClass, provideAutoSpy } from "jasmine-auto-spies";
@@ -34,7 +34,7 @@ describe("CounterEffects", () => {
   });
 
   it("should call storage on action", () => {
-    actions$ = of(storeCounter);
+    actions$ = of(CounterActions.storeCounter);
     storageMapSpy.set.and.nextWith();
     observerSpy = subscribeSpyTo(effects.setCounter$);
     expect(observerSpy.getValuesLength()).toBe(1);

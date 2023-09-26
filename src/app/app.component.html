@@ -1,38 +1,41 @@
-<ng-container *ngIf="(viewModel$ | async) as viewModel">
+<ng-container *ngIf="(viewModel$ | async) as viewModel; else loading">
   <div class="container my-2">
     <app-hello name="{{ name }}"></app-hello>
     <p>
       Very simple NgRx starter app. Used in this medium article :
-      <a
-        href="https://medium.com/@coco.boudard/starting-with-angular-and-ngrx-store-75e92c90d346"
-        >Starting with Angular and NgRx Store</a
-      >
+      <a href="https://medium.com/@coco.boudard/starting-with-angular-and-ngrx-store-75e92c90d346">
+        Starting with Angular and NgRx Store
+      </a>
     </p>
-  
       <div class="mb-2">
-        <button class="btn btn-success btn-sm mr-2" (click)="decrement()">
+        <button class="btn btn-success btn-sm me-2" (click)="decrement()">
           decrement
         </button>
-        <button class="btn btn-success btn-sm mr-2" (click)="increment()">
+        <button class="btn btn-success btn-sm me-2" (click)="increment()">
           increment
         </button>
-        <button class="btn btn-primary btn-sm mr-2" (click)="storeVal(viewModel.count)">
+        <button class="btn btn-primary btn-sm me-2" (click)="storeVal(viewModel.count)">
           store
         </button>
       </div>
       <div>
         counter:
-        <span class="badge badge-primary" id="num" [innerText]="viewModel.count"></span>
+        <span class="badge bg-primary" id="num" [innerText]="viewModel.count"></span>
       </div>
       <div>
         storage:
         <span
-          class="badge badge-primary"
+          class="badge bg-info"
           id="storage"
           [innerText]="viewModel.storage"
         ></span>
       </div>
-
   </div>
 </ng-container>
-
+<ng-template #loading>
+  <div class="container my-2">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>
