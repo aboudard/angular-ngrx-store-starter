@@ -95,9 +95,10 @@
       }
     }
   },
-  "defaultProject": "angular-ngrx-store-starter",
   "cli": {
-    "defaultCollection": "@ngrx/schematics",
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }
