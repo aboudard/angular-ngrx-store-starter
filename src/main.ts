@@ -1,19 +1,40 @@
-import './polyfills';
+import "./polyfills";
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { importProvidersFrom } from "@angular/core";
 
-import { AppModule } from './app/app.module';
+import { FormsModule } from "@angular/forms";
+import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
+import { EffectsModule, provideEffects } from "@ngrx/effects";
+import { provideStore } from "@ngrx/store";
+import { provideStoreDevtools, StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { StorageModule } from "@ngx-pwa/local-storage";
+import { AppComponent } from "./app/app.component";
+import { CounterEffects } from "./app/effects/counter.effects";
+import { metaReducers, reducers } from "./app/reducers";
+import { environment } from "./environments/environment";
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .then(ref => {
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideStore(reducers, { metaReducers, runtimeChecks: {
+      strictStateImmutability: true,
+      strictActionImmutability: true,
+    } } ),
+    provideEffects([CounterEffects]),
+    !environment.production ? provideStoreDevtools() : [],
+    importProvidersFrom(
+      BrowserModule,
+      FormsModule,
+      StorageModule.forRoot({ IDBNoWrap: true })
+    ),
+  ],
+})
+  .then((ref) => {
     // Ensure Angular destroys itself on hot reloads.
-    if (window['ngRef']) {
-      window['ngRef'].destroy();
+    if (window["ngRef"]) {
+      window["ngRef"].destroy();
     }
-    window['ngRef'] = ref;
+    window["ngRef"] = ref;
 
     // Otherwise, log the boot error
   })
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
