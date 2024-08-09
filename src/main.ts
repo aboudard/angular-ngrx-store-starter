@@ -4,9 +4,9 @@ import { importProvidersFrom } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
-import { EffectsModule, provideEffects } from "@ngrx/effects";
+import { provideEffects } from "@ngrx/effects";
 import { provideStore } from "@ngrx/store";
-import { provideStoreDevtools, StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { StorageModule } from "@ngx-pwa/local-storage";
 import { AppComponent } from "./app/app.component";
 import { CounterEffects } from "./app/effects/counter.effects";

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CounterActions } from '../actions/counter.actions';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { StorageMap } from "@ngx-pwa/local-storage";
 import { CounterActions } from "../actions/counter.actions";
 import { CounterEffects } from "./counter.effects";
 import { Observable, of } from "rxjs";
-import { Spy, createSpyFromClass, provideAutoSpy } from "jasmine-auto-spies";
+import { Spy, provideAutoSpy } from "jasmine-auto-spies";
 import { SubscriberSpy, subscribeSpyTo } from "@hirez_io/observer-spy";
 import { Action } from "@ngrx/store";
 
