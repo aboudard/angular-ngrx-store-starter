@@ -22,16 +22,16 @@ interface ViewModel {
   imports: [NgIf, HelloComponent, AsyncPipe, NgbDropdownModule],
 })
 export class AppComponent implements OnInit {
-  name = "Angular & NgRx - v15";
+  name = "Angular & NgRx - v16";
   store = inject(Store<AppState>);
   storage = inject(StorageMap);
   viewModel$: Observable<ViewModel> = combineLatest([
     this.store.pipe(select(getCount)),
-    this.storage.watch<number>("count", {
+    this.storage.watch("count", {
       type: "number",
-    }) as Observable<number>,
+    }),
   ]).pipe(
-    delay(500),
+    delay(1200),
     map(([count, storage]) => ({ count, storage }))
   );
 

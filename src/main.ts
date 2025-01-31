@@ -1,5 +1,3 @@
-import "./polyfills";
-
 import { importProvidersFrom } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
@@ -15,10 +13,13 @@ import { environment } from "./environments/environment";
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideStore(reducers, { metaReducers, runtimeChecks: {
-      strictStateImmutability: true,
-      strictActionImmutability: true,
-    } } ),
+    provideStore(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
     provideEffects([CounterEffects]),
     !environment.production ? provideStoreDevtools() : [],
     importProvidersFrom(
