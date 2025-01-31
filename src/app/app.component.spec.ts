@@ -23,8 +23,8 @@ describe("AppComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'Angular & NgRx'`, () => {
-    expect(component.name).toEqual("Angular & NgRx");
+  it(`should have as title 'Angular & NgRx - v16'`, () => {
+    expect(component.name).toEqual("Angular & NgRx - v16");
   });
 
   it("should dispatch an action onInit - method 1", () => {
