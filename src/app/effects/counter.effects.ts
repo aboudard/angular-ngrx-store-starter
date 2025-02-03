@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CounterActions } from '../actions/counter.actions';
-import { map } from 'rxjs/operators';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { map } from 'rxjs/operators';
+import { CounterActions } from '../actions/counter.actions';
 
 @Injectable()
 export class CounterEffects {
-  constructor(private actions$: Actions, private storage: StorageMap) {}
+  actions$ = inject(Actions);
+  storage = inject(StorageMap);
 
   setCounter$ = createEffect(
     () =>

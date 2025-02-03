@@ -1,7 +1,4 @@
-import {
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as fromCounter from './counter.reducer';
 
@@ -10,7 +7,7 @@ export interface AppState {
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  [fromCounter.counterFeatureKey]: fromCounter.reducer
+  [fromCounter.counterFeatureKey]: fromCounter.reducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production

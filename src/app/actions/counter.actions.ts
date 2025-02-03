@@ -5,6 +5,6 @@ export const CounterActions = createActionGroup({
   events: {
     'Increment Counter': emptyProps(),
     'Decrement Counter': emptyProps(),
-    'Store Counter': props<{ val: number }>()
-  }
+    'Store Counter': props<{ val: number }>(),
+  },
 });

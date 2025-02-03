@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 132.0.0.0 (Windows 10)" package="" timestamp="2025-01-31T14:08:10" id="0" hostname="AAP-5CG4031QT3" tests="6" errors="0" failures="0" time="0.045">
+<testsuite name="Chrome Headless 132.0.0.0 (Windows 10)" package="" timestamp="2025-02-03T10:02:47" id="0" hostname="AAP-5CG4031QT3" tests="6" errors="0" failures="0" time="0.071">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/132.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="AppComponent should dispatch an action onInit - method 1" time="0.03" classname="AppComponent"/>
-  <testcase name="AppComponent should dispatch an action onInit - method 2" time="0.005" classname="AppComponent"/>
-  <testcase name="AppComponent should create the app" time="0.002" classname="AppComponent"/>
-  <testcase name="AppComponent should have as title 'Angular &amp; NgRx - v16'" time="0.002" classname="AppComponent"/>
-  <testcase name="CounterEffects should be created" time="0.003" classname="CounterEffects"/>
-  <testcase name="CounterEffects should call storage on action" time="0.003" classname="CounterEffects"/>
+  <testcase name="CounterEffects should call storage on action" time="0.014" classname="CounterEffects"/>
+  <testcase name="CounterEffects should be created" time="0.002" classname="CounterEffects"/>
+  <testcase name="AppComponent should dispatch an action onInit - method 1" time="0.044" classname="AppComponent"/>
+  <testcase name="AppComponent should have as title 'Angular &amp; NgRx - v17'" time="0.003" classname="AppComponent"/>
+  <testcase name="AppComponent should create the app" time="0.005" classname="AppComponent"/>
+  <testcase name="AppComponent should dispatch an action onInit - method 2" time="0.003" classname="AppComponent"/>
   <system-out>
     <![CDATA[Chrome Headless 132.0.0.0 (Windows 10) LOG: undefined
 

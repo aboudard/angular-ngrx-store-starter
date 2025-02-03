@@ -1,12 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-    selector: 'app-hello',
-    template: `
-    <h1>Hello {{ name }}!</h1>
-  `,
-    standalone: true
+  selector: 'app-hello',
+  template: ` <h1>Hello {{ name() }}!</h1> `,
+  standalone: true,
 })
 export class HelloComponent {
-  @Input() name: string;
+  readonly name = input<string>(undefined);
 }
