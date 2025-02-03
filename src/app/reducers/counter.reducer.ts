@@ -8,13 +8,19 @@ export interface CounterState {
 }
 
 export const initialState: CounterState = {
-  count: 0
+  count: 0,
 };
 
 const counterReducer = createReducer(
   initialState,
-  on(CounterActions.incrementCounter, state => ({ ...state, count: state.count + 2 })),
-  on(CounterActions.decrementCounter, state => ({ ...state, count: state.count - 1 }))
+  on(CounterActions.incrementCounter, state => ({
+    ...state,
+    count: state.count + 2,
+  })),
+  on(CounterActions.decrementCounter, state => ({
+    ...state,
+    count: state.count - 1,
+  }))
 );
 
 export function reducer(state: CounterState | undefined, action: Action) {
