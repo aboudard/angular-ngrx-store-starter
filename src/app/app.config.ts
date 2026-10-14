@@ -13,7 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { provideEffects } from '@ngrx/effects';
-import { CounterEffects } from './effects/counter.effects';
+import { CounterEffects } from './counter/counter.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [

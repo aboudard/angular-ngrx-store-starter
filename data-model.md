@@ -1,10 +1,11 @@
 # Data model
 
 ## Summary
-This project does not define a relational database schema or persistent backend domain model. The application state is a lightweight in-memory NgRx store with one primary state slice and browser-side persistence.
 
-## State model
-### Root application state
+There is no relational database, backend domain model, or ORM schema. The application has one in-memory Counter state slice and a separate browser-stored number.
+
+## Root application state
+
 Defined in `src/app/reducers/index.ts`:
 
 ```ts
@@ -13,42 +14,46 @@ export interface AppState {
 }
 ```
 
-### Counter state
-Defined in `src/app/reducers/counter.reducer.ts`:
+## Counter state
+
+Defined in `src/app/counter/counter.reducer.ts`:
 
 ```ts
 export interface CounterState {
   count: number;
+  isStoring: boolean;
+  storeError: boolean;
 }
 ```
 
-### Initial state
-```ts
-export const initialState: CounterState = {
-  count: 0,
-};
-```
+- `count` begins at `0`; app startup dispatches one increment.
+- Increment adds `2`; Decrement subtracts `1`.
+- `isStoring` tracks the current explicit storage write.
+- `storeError` indicates that the latest storage write failed.
 
-## Relationships and persistence
-- There is a single feature slice keyed by `counter`.
-- The `count` field is read via selector `getCount`.
-- The same number is also persisted to browser storage with `StorageMap`.
-- No database tables, entity mappings, or ORM metadata are present in the repo.
+## Separate stored value
 
-## Key entities / records
+- Browser storage key: `count`
+- Value type: number
+- Store writes the currently displayed counter value.
+- The stored value is read and displayed separately; it does not initialize the live counter.
+- `storageError` is view-model state indicating that the stored value could not be read. It is not part of `CounterState`.
+
+## Key records
+
 1. `CounterState`
-   - Description: store slice containing the current counter value
-   - Fields: `count: number`
+   - The feature state containing the live count and storage-write status.
 2. `AppState`
-   - Description: top-level state object that includes the counter feature slice
-   - Fields: feature key `counter` mapped to `CounterState`
-3. Persisted browser value
-   - Description: local storage key `count` holding the last stored number
-   - Type: number
+   - The root state containing the `counter` feature slice.
+3. Stored counter value
+   - A number explicitly saved by the user and retained separately from the live count.
+4. `CounterViewModel`
+   - The facade's read model combining the displayed count, stored value, initial-read error, and write status for the UI.
 
-## Transaction / consistency notes
-- The project does not include transaction boundaries, relational integrity rules, or backend persistence workflows.
-- The only state mutation is in the reducer and the write to browser storage performed by the effect.
+## Relationships and consistency
 
-## Conclusion
-The effective data model is intentionally minimal and is centered on a single numeric state value. There is no separate domain model layer or database model in this repository.
+- The reducer owns in-memory counter transitions and storage-write status.
+- The Counter effect writes an explicit Store request and reports success or failure.
+- The view model combines the in-memory state with the separately watched stored value.
+- Displayed values are delayed by 1.2 seconds; Store submits the value currently displayed.
+- There are no transaction boundaries, relational constraints, or backend persistence workflows.

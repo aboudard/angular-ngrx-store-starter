@@ -1,156 +1,91 @@
 # Project structure
 
-## 1. Overall architecture
+## Overall architecture
 
-This repository is a small Angular 17 frontend application built around NgRx state management and a local storage-backed counter demo. It is a single-application frontend project, not a backend or monorepo.
+This is a small Angular 17 browser application using NgRx for the counter state and browser storage for an explicitly saved value. It is a single frontend application, not a backend or monorepo.
 
-### Project type classification
-- Project type: frontend
-- Runtime: browser-based Angular SPA
-- State model: NgRx Store + Effects
-- Persistence: browser local storage via `@ngx-pwa/local-storage`
-
-## 2. Top-level module/package breakdown
+## Top-level module breakdown
 
 ```text
 src/
 ├─ app/
-│  ├─ actions/                Counter action definitions
-│  ├─ effects/                Side effects for storage writes
-│  ├─ reducers/              Store state shape and reducer logic
-│  ├─ selectors/              Selector functions
-│  ├─ app.component.ts        Root view model and UI actions
-│  ├─ app.component.html     Root UI template
-│  ├─ app.config.ts          Global Angular/NgRx app bootstrap providers
-│  ├─ app.routes.ts          Router config (empty routes)
-│  ├─ hello.component.ts     Reusable presentational component
-│  └─ app.component.spec.ts  Root component spec
-├─ environments/             App environment config
-├─ assets/                   Styling assets
-├─ index.html                Browser shell
-├─ main.ts                   Angular bootstrap entry point
-├─ styles.css                Global styles
-├─ test.ts                   Karma/Jasmine bootstrap
-├─ karma.conf.js             Test config
-├─ tsconfig.app.json         App compiler config
-├─ tsconfig.spec.json        Test compiler config
-└─ (project root)            Angular workspace config, package metadata, lint/test config
+│  ├─ counter/                    Counter feature implementation
+│  │  ├─ counter.actions.ts
+│  │  ├─ counter.effects.ts
+│  │  ├─ counter.effects.spec.ts
+│  │  ├─ counter-explanation.component.ts
+│  │  ├─ counter-explanation.component.spec.ts
+│  │  ├─ counter.facade.ts
+│  │  ├─ counter.facade.spec.ts
+│  │  ├─ counter.reducer.ts
+│  │  ├─ counter.reducer.spec.ts
+│  │  └─ counter.selectors.ts
+│  ├─ reducers/
+│  │  └─ index.ts                 Root state type and reducer registration
+│  ├─ app.component.ts            Root app shell and startup trigger
+│  ├─ app.component.html          Counter controls and displayed values
+│  ├─ app.component.spec.ts
+│  ├─ app.config.ts               Angular and NgRx providers
+│  ├─ app.routes.ts               Router config (empty routes)
+│  └─ hello.component.ts          Greeting display
+├─ environments/                  Build-time environment flags
+├─ assets/                        Styling assets
+├─ index.html                     Browser document
+├─ main.ts                        Angular bootstrap entry point
+├─ styles.css                     Global styles
+├─ test.ts                        Karma/Jasmine bootstrap
+├─ karma.conf.js                  Test runner config
+├─ tsconfig.app.json              App compiler config
+└─ tsconfig.spec.json             Test compiler config
 ```
 
-## 3. Layer architecture
+## Layers and module responsibilities
 
-### UI layer
-- `src/app/app.component.ts`
-  - Root component for the app shell
-  - Injects `Store<AppState>` and `StorageMap`
-  - Creates a `viewModel$` combining store count and storage value
-  - Exposes `increment()`, `decrement()`, and `storeVal()` actions
-- `src/app/hello.component.ts`
-  - Small standalone presentational component used in the root template
-- `src/app/app.component.html`
-  - Renders the counter UI, buttons, and local-storage display
+### App shell
+- `src/main.ts` bootstraps the standalone `AppComponent` with `appConfig`.
+- `src/app/app.config.ts` registers the root store, Counter effect, router, Store DevTools, and browser storage.
+- `src/app/reducers/index.ts` defines `AppState` and registers the Counter reducer.
+- `src/app/app.component.ts` initiates one increment at startup and routes UI operations through `CounterFacade`.
+- `src/app/app.component.html` renders the counter, persistence progress/errors, and the saved value.
 
-### State layer (NgRx)
-- `src/app/actions/counter.actions.ts`
-  - Defines `CounterActions` using `createActionGroup`
-  - Event types: increment, decrement, store
-- `src/app/reducers/counter.reducer.ts`
-  - Defines `CounterState` and reducer logic
-  - `count` starts at `0`
-  - increment adds `2`, decrement subtracts `1`
-- `src/app/reducers/index.ts`
-  - Exposes the root `AppState` and `reducers` map
-- `src/app/selectors/counter.selector.ts`
-  - Exposes `getCount` selector to read the `count` slice
-- `src/app/effects/counter.effects.ts`
-  - Watches `storeCounter` actions and writes the value to `StorageMap`
-  - Runs with `dispatch: false`
+### Counter feature
+- `counter.actions.ts` defines increment, decrement, storage request, and storage result actions.
+- `counter.reducer.ts` owns the numeric count and storage-write pending/error state.
+- `counter.selectors.ts` reads the feature state without depending on the root state shape.
+- `counter.effects.ts` writes an explicitly submitted count to browser storage and reports success/failure.
+- `counter.facade.ts` is the UI-facing interface. It exposes a single view-model stream and counter operations; NgRx and `StorageMap` remain internal.
+- `counter-explanation.component.ts` explains the counter, saved-value, and display-delay behavior to the user.
 
-### Configuration / bootstrap layer
-- `src/main.ts`
-  - Boots Angular using `bootstrapApplication()`
-- `src/app/app.config.ts`
-  - Global providers for Router, NgRx Store, Effects, DevTools, and local storage
-- `src/app/app.routes.ts`
-  - Router config placeholder (`Routes = []`)
-- `src/environments/environment.ts` and `environment.prod.ts`
-  - Build-time environment flags
+## Entry points and runtime wiring
 
-## 4. Entry points and runtime wiring
+- `src/main.ts` is the runtime entry point.
+- `src/index.html` contains the `<app-component>` mount element.
+- `src/app/app.config.ts` wires `provideRouter`, `provideStore`, `provideEffects`, Store DevTools, `BrowserModule`, `FormsModule`, and `StorageModule`.
+- `src/app/app.routes.ts` currently exports an empty route list.
 
-### Runtime entry point
-- `src/main.ts` is the application bootstrap entry point.
-- It loads `AppComponent` and passes `appConfig`.
+## Key config files
 
-### App bootstrap config
-- `src/app/app.config.ts` wires the following:
-  - `provideRouter(routes)`
-  - `provideStore(reducers, { metaReducers, runtimeChecks })`
-  - `provideEffects([CounterEffects])`
-  - `provideStoreDevtools(...)`
-  - `importProvidersFrom(BrowserModule, FormsModule, StorageModule.forRoot(...))`
+- `angular.json`: Angular application build, serve, test, and lint targets.
+- `package.json`: dependencies and npm scripts.
+- `tsconfig.json`: TypeScript compiler settings.
+- `src/tsconfig.app.json` and `src/tsconfig.spec.json`: app and test compilation.
+- `src/karma.conf.js`: Karma configuration.
+- `.eslintrc.json` and `tslint.json`: lint configuration files in the repository.
+- `src/environments/environment.ts` and `environment.prod.ts`: development/production flags selected by Angular build configuration.
 
-### Browser shell
-- `src/index.html` is the root browser document.
-- It mounts `<app-component></app-component>`.
+## Functional areas
 
-## 5. File counts by package/layer
+The only domain feature is the Counter:
+- A live in-memory numeric value starts at `0`; the app increments it once on startup.
+- Increment adds `2`; Decrement subtracts `1`.
+- Store explicitly persists the value currently displayed by the UI.
+- The stored value is displayed separately and does not initialize the live counter.
+- Both displayed values update through a stream delayed by 1.2 seconds.
 
-Approximate counts from the current repository state:
+## Project type classification
 
-- `src/`: 22 files total
-- `src/app/`: 12 files
-- `src/app/actions/`: 1 file
-- `src/app/effects/`: 2 files
-- `src/app/reducers/`: 2 files
-- `src/app/selectors/`: 1 file
-- `src/environments/`: 2 files
-- `src/assets/`: 1 file
-
-### Layer counts
-- UI files: `app.component.ts`, `app.component.html`, `hello.component.ts` (3)
-- State files: actions + reducers + selectors + effects (1 + 2 + 1 + 2 = 6)
-- Bootstrap/configuration files: `app.config.ts`, `app.routes.ts`, `main.ts`, `environment.*` (5)
-
-## 6. Key config files and their roles
-
-- `angular.json`
-  - Angular workspace configuration
-  - Defines application build, serve, test, and lint targets
-- `package.json`
-  - Dependency set and npm scripts
-  - Includes Angular 17, NgRx 17, Bootstrap, RxJS, and test tooling
-- `tsconfig.json`
-  - TypeScript compiler base config for the app
-- `src/karma.conf.js`
-  - Karma test runner configuration
-- `.eslintrc.json`
-  - Linting rules for the codebase
-- `tslint.json`
-  - Legacy lint configuration retained in the project setup
-
-## 7. Major functional areas/domains
-
-This app has a very small domain model, centered on a single feature:
-
-- Counter feature domain
-  - state: current numeric count
-  - actions: increment, decrement, store
-  - selector: read the current count
-  - effects: persist the value to local storage
-
-Other non-domain concerns in the app:
-- UI rendering and component composition
-- local storage integration
-- app bootstrap and provider wiring
-
-## 8. Architectural observations
-
-- This is a straightforward feature-oriented Angular app with a clear separation between:
-  - components (view)
-  - actions (intent)
-  - reducers (state transitions)
-  - selectors (read access)
-  - effects (side effects and external integration)
-- The app does not currently include a backend, ORM, database schema, or service layer beyond browser storage integration.
-- The application is intentionally lightweight and easy to understand as a starter for NgRx learning.
+- Type: frontend
+- Runtime: browser-based Angular application
+- State: NgRx Store and Effects
+- Persistence: browser storage through `@ngx-pwa/local-storage`
+- No backend, database, or ORM is present.

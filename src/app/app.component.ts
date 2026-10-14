@@ -1,49 +1,40 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Store, select } from '@ngrx/store';
-import { StorageMap } from '@ngx-pwa/local-storage';
-import { Observable, combineLatest } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-import { CounterActions } from './actions/counter.actions';
+import { Observable } from 'rxjs';
+import { CounterExplanationComponent } from './counter/counter-explanation.component';
+import { CounterFacade, CounterViewModel } from './counter/counter.facade';
 import { HelloComponent } from './hello.component';
-import { AppState } from './reducers';
-import { getCount } from './selectors/counter.selector';
-
-interface ViewModel {
-  count: number;
-  storage: number;
-}
 
 @Component({
   selector: 'app-component',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [NgIf, HelloComponent, AsyncPipe, NgbDropdownModule],
+  imports: [
+    NgIf,
+    HelloComponent,
+    CounterExplanationComponent,
+    AsyncPipe,
+    NgbDropdownModule,
+  ],
 })
 export class AppComponent implements OnInit {
   name = 'Angular & NgRx - v17';
-  store = inject(Store<AppState>);
-  storage = inject(StorageMap);
-  viewModel$: Observable<ViewModel> = combineLatest([
-    this.store.pipe(select(getCount)),
-    this.storage.watch('count', {
-      type: 'number',
-    }),
-  ]).pipe(
-    delay(1200),
-    map(([count, storage]) => ({ count, storage }))
-  );
+  private readonly counter = inject(CounterFacade);
+  viewModel$: Observable<CounterViewModel> = this.counter.viewModel$;
 
   decrement(): void {
-    this.store.dispatch(CounterActions.decrementCounter());
+    this.counter.decrement();
   }
+
   increment(): void {
-    this.store.dispatch(CounterActions.incrementCounter());
+    this.counter.increment();
   }
-  storeVal(num: number): void {
-    this.store.dispatch(CounterActions.storeCounter({ val: num }));
+
+  storeVal(displayedCount: number): void {
+    this.counter.storeDisplayedCount(displayedCount);
   }
+
   ngOnInit(): void {
     this.increment();
   }
