@@ -1,21 +1,34 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ObserverSpy, subscribeSpyTo } from '@hirez_io/observer-spy';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CounterActions } from './actions/counter.actions';
 import { AppComponent } from './app.component';
-import * as fromRoot from './reducers';
+import { CounterFacade } from './counter/counter.facade';
+import { CounterViewModel } from './counter/counter.facade';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  let store: MockStore<fromRoot.AppState>;
-  let storeSpy: ObserverSpy<any>;
+  const counterFacade = {
+    viewModel$: of<CounterViewModel>({
+      count: 2,
+      storedValue: null,
+      storageError: false,
+      isStoring: false,
+      storeError: false,
+    }),
+    decrement: jasmine.createSpy('decrement'),
+    increment: jasmine.createSpy('increment'),
+    storeDisplayedCount: jasmine.createSpy('storeDisplayedCount'),
+  };
 
   beforeEach(waitForAsync(() => {
+    counterFacade.decrement.calls.reset();
+    counterFacade.increment.calls.reset();
+    counterFacade.storeDisplayedCount.calls.reset();
     TestBed.configureTestingModule({
-      providers: [AppComponent, provideMockStore()],
+      providers: [
+        AppComponent,
+        { provide: CounterFacade, useValue: counterFacade },
+      ],
     });
-    store = TestBed.inject(MockStore);
-    storeSpy = subscribeSpyTo(store.scannedActions$);
     component = TestBed.inject(AppComponent);
   }));
 
@@ -27,16 +40,18 @@ describe('AppComponent', () => {
     expect(component.name).toEqual('Angular & NgRx - v17');
   });
 
-  it('should dispatch an action onInit - method 1', () => {
-    const action = CounterActions.incrementCounter();
+  it('should increment the counter once on init', () => {
     component.ngOnInit();
-    expect(storeSpy.getLastValue()).toEqual(action);
+    expect(counterFacade.increment).toHaveBeenCalledTimes(1);
   });
 
-  it('should dispatch an action onInit - method 2', () => {
-    const spyStore = spyOn(store, 'dispatch').and.callThrough();
-    const action = CounterActions.incrementCounter();
-    component.ngOnInit();
-    expect(spyStore).toHaveBeenCalledWith(action);
+  it('should route counter operations through the facade', () => {
+    component.increment();
+    component.decrement();
+    component.storeVal(17);
+
+    expect(counterFacade.increment).toHaveBeenCalledTimes(1);
+    expect(counterFacade.decrement).toHaveBeenCalledTimes(1);
+    expect(counterFacade.storeDisplayedCount).toHaveBeenCalledWith(17);
   });
 });

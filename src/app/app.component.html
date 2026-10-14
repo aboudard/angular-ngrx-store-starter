@@ -17,9 +17,23 @@
       </button>
       <button
         class="btn btn-primary btn-sm me-2"
+        [disabled]="viewModel.isStoring"
         (click)="storeVal(viewModel.count)">
         Store
       </button>
+      <span
+        *ngIf="viewModel.isStoring"
+        class="text-primary"
+        role="status"
+        aria-live="polite">
+        <span
+          class="spinner-border spinner-border-sm me-1"
+          aria-hidden="true"></span>
+        Saving...
+      </span>
+      <span *ngIf="viewModel.storeError" class="text-danger ms-2" role="alert">
+        Could not save the counter. Try again.
+      </span>
     </div>
     <div class="mb-2">
       counter:
@@ -31,10 +45,18 @@
     <div class="mb-2">
       storage:
       <span
-        class="badge bg-info"
-        id="storage"
-        [innerText]="viewModel.storage"></span>
+        *ngIf="viewModel.storageError; else storedValue"
+        class="text-danger">
+        Saved value unavailable.
+      </span>
+      <ng-template #storedValue>
+        <span
+          class="badge bg-info"
+          id="storage"
+          [innerText]="viewModel.storedValue"></span>
+      </ng-template>
     </div>
+    <app-counter-explanation></app-counter-explanation>
     <div ngbDropdown class="d-inline-block">
       <button
         type="button"
@@ -52,9 +74,10 @@
   </div>
 </ng-container>
 <ng-template #loading>
-  <div class="container my-2">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+  <div class="container my-2" role="status" aria-live="polite">
+    <div
+      class="spinner-border spinner-border-sm text-primary me-2"
+      aria-hidden="true"></div>
+    <span>Loading counter values...</span>
   </div>
 </ng-template>
